@@ -6,14 +6,12 @@ class Jalapeno:
         self.client = ArangoClient(hosts=netloc)
         self.db = self.client.db(db_name, username=username, password=password)
 
-    def get_shortest_path(src_ip, dst_ip):
+    def get_least_utilized_path(self, src_ip, dst_ip):
         query = """
-        FOR v IN OUTBOUND 
-        SHORTEST_PATH 'LSNode/{src_ip}' TO 'LSNode/{dst_ip}' LS_Topology
-            RETURN v
-        )
-        """.format(
-            src_ip=src_ip, dst_ip=dst_ip
-        )
-        cursor = db.aql.execute(query)
-        return [name for name in cursor]
+        FOR v, e IN OUTBOUND SHORTEST_PATH 'LSNode/%s' TO 'LSNode/%s' LS_Topology
+            OPTIONS {weightAttribute: 'PercentUtilOutbound'}
+            FILTER e != null
+            RETURN e
+        """ % (src_ip, dst_ip)
+        cursor = self.db.aql.execute(query)
+        return [edge for edge in cursor]
