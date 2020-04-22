@@ -1,0 +1,16 @@
+{
+    "poll_time": 5,
+    "path": {
+        "srcIP": "172.31.101.67",
+        "srcGatewayIP": "172.31.101.1",
+        "dstGatewayIP": "172.31.101.6"
+    },
+    "jalapeno": {
+        "netloc": "http://127.0.0.1:30852",
+        "username": "admin",
+        "password": "its_a_secret"
+    },
+    "SL-API": {
+        "netloc": "127.0.0.1:57400"
+    }
+}
