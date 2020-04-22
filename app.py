@@ -24,7 +24,7 @@ def main():
                 "label_stack": [int(e["RemotePrefixSID"]) for e in optimal_path[1:]]
             }
             logging.debug("Optimal route: %s -> %s %s", optimal_route["prefix"], optimal_route["nexthop_ip"], str(optimal_route["label_stack"]))
-            optimal_route["nexthop_intf"] = get_nexthop_intf(optimal_route["label_stack"])
+            optimal_route["nexthop_intf"] = get_nexthop_intf(optimal_route["nexthop_ip"])
             if optimal_route != last_route:
                 logging.info("New optimal route for %s!", optimal_route["prefix"])
                 if last_route is not None:
@@ -45,12 +45,16 @@ def main():
         lets_get_thready.set()
         sl_api.watchdog_thread.join()
 
-def get_nexthop_intf(label_stack):
+def get_nexthop_intf(nexthop_ip):
     # TODO: Hit device for this
-    if label_stack[0] == 16005:
+    if nexthop_ip == "172.31.101.44":
+        return "HundredGigE0/0/0/0"
+    elif nexthop_ip == "172.31.101.48":
         return "Bundle-Ether3"
-    else:
+    elif nexthop_ip == "172.31.101.46":
         return "HundredGigE0/0/0/2"
+    else:
+        raise Exception("Unknown nexthop!")
 
 def load_config(filename="config.json"):
     config = None
