@@ -32,6 +32,8 @@ def main():
                 sl_api.route_add(**optimal_route)
                 logging.debug("Finished programming optimal route.")
                 last_route = optimal_route
+            else:
+                logging.debug("Optimal route same as previous, nothing to do.")
             logging.debug("Sleeping for %i seconds.", config["poll_time"])
             time.sleep(config["poll_time"])
     except KeyboardInterrupt:
