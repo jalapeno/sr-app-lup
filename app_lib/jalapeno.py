@@ -9,7 +9,7 @@ class Jalapeno:
     def get_least_utilized_path(self, src_ip, dst_ip):
         query = """
         FOR v, e IN OUTBOUND SHORTEST_PATH 'LSNode/%s' TO 'LSNode/%s' LS_Topology
-            OPTIONS {weightAttribute: 'PercentUtilOutbound'}
+            OPTIONS {weightAttribute: 'Percent_Util_Outbound'}
             FILTER e != null
             RETURN e
         """ % (src_ip, dst_ip)
