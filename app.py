@@ -5,9 +5,10 @@ import time
 from app_lib import SLAPIWrapper
 from app_lib import Jalapeno
 
+
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    logging.info('Starting SR-App')
+    logging.info("Starting SR-App")
     config = load_config()
     lets_get_thready = threading.Event()
     jalapeno = Jalapeno(**config["jalapeno"])
@@ -17,14 +18,23 @@ def main():
         last_route = None
         while True:
             logging.debug("Polling for optimal path...")
-            optimal_path = jalapeno.get_least_utilized_path(config["path"]["srcGatewayIP"], config["path"]["dstGatewayIP"])
+            optimal_path = jalapeno.get_least_utilized_path(
+                config["path"]["srcGatewayIP"], config["path"]["dstGatewayIP"]
+            )
             optimal_route = {
                 "prefix": config["path"]["srcIP"],
                 "nexthop_ip": optimal_path[0]["ToInterfaceIP"],
-                "label_stack": [int(e["RemotePrefixSID"]) for e in optimal_path[1:]]
+                "label_stack": [int(e["RemotePrefixSID"]) for e in optimal_path[1:]],
             }
-            logging.debug("Optimal route: %s -> %s %s", optimal_route["prefix"], optimal_route["nexthop_ip"], str(optimal_route["label_stack"]))
-            optimal_route["nexthop_intf"] = get_nexthop_intf(optimal_route["nexthop_ip"])
+            logging.debug(
+                "Optimal route: %s -> %s %s",
+                optimal_route["prefix"],
+                optimal_route["nexthop_ip"],
+                str(optimal_route["label_stack"]),
+            )
+            optimal_route["nexthop_intf"] = get_nexthop_intf(
+                optimal_route["nexthop_ip"]
+            )
             if optimal_route != last_route:
                 logging.info("New optimal route for %s!", optimal_route["prefix"])
                 if last_route is not None:
@@ -45,6 +55,7 @@ def main():
         lets_get_thready.set()
         sl_api.watchdog_thread.join()
 
+
 def get_nexthop_intf(nexthop_ip):
     # TODO: Hit device for this
     if nexthop_ip == "172.31.101.44":
@@ -56,11 +67,13 @@ def get_nexthop_intf(nexthop_ip):
     else:
         raise Exception("Unknown nexthop!")
 
+
 def load_config(filename="config.json"):
     config = None
     with open(filename, "r") as config_fd:
         config = json.load(config_fd)
     return config
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

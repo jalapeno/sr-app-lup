@@ -12,6 +12,9 @@ class Jalapeno:
             OPTIONS {weightAttribute: 'Percent_Util_Outbound'}
             FILTER e != null
             RETURN e
-        """ % (src_ip, dst_ip)
+        """ % (
+            src_ip,
+            dst_ip,
+        )
         cursor = self.db.aql.execute(query)
         return [edge for edge in cursor]
