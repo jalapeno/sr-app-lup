@@ -1,3 +1,4 @@
+"""Simple wrapper for Jalapeño in leiu of API today."""
 from arango import ArangoClient
 
 
@@ -7,6 +8,9 @@ class Jalapeno:
         self.db = self.client.db(db_name, username=username, password=password)
 
     def get_least_utilized_path(self, src_ip, dst_ip):
+        """Use the shortest path query on the anonymous LS_Topology graph
+        to determine headend -> headend optimal path.
+        """
         query = """
         FOR v, e IN OUTBOUND SHORTEST_PATH 'LSNode/%s' TO 'LSNode/%s' LS_Topology
             OPTIONS {weightAttribute: 'Percent_Util_Outbound'}
