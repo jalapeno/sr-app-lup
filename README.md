@@ -1,5 +1,5 @@
-# SR-App Sample - Least-Cost Path
-This sample SR-App demonstrates how to use Jalapeño to determine the least-cost path through the topology for a provided source IP and use SL-API to instrument that path logic onto the headend router responsible for the traffic. Thus we may traffic engineer the "best" path for highest available bandwidth at all times for the source.
+# SR-App Sample - Least-Utilized Path
+This sample SR-App demonstrates how to use Jalapeño to determine the least-utilized path through the topology for a provided source IP and use SL-API to instrument that path logic onto the headend router responsible for the traffic. Thus we may traffic engineer the "best" path for highest available bandwidth at all times for the source.
 
 ## Usage
 ```bash
