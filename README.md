@@ -1,2 +1,2 @@
-# sr-app-lcp
-Least cost path SR-App
+# sr-app-lup
+Least utilized path SR-App
