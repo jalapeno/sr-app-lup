@@ -1,3 +1,7 @@
+"""Derived from XRDocs SL-API example.
+Attempts to provide some structure around SL-API usage.
+Implicitly starts a watchdog thread which needs to be cleaned up.
+"""
 import ipaddress
 import os
 import sys
@@ -23,6 +27,7 @@ class SLAPIWrapper:
         self.watchdog_thread = self.start_notification_watchdog()
 
     def start_notification_watchdog(self):
+        """Setup and start watchdog thread."""
         ready_event = threading.Event()
         watchdog_thread = threading.Thread(
             target=self.__watchdog_main, args=(self.stub, ready_event, self.exit_event)
@@ -32,6 +37,11 @@ class SLAPIWrapper:
         return watchdog_thread
 
     def __watchdog_main(self, stub, ready_event, exit_event):
+        """Thread which receives various SL-API messages.
+        Needs to be joined on exit. exit_event indicates should exit.
+        Currently only exits on SL-API heartbeat.
+        Need to poll or select or something on iteration somehow.
+        """
         init_msg = sl_global_pb2.SLInitMsg()
         init_msg.MajorVer = sl_version_pb2.SL_MAJOR_VERSION
         init_msg.MinorVer = sl_version_pb2.SL_MINOR_VERSION
