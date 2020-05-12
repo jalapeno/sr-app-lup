@@ -29,7 +29,7 @@ def main():
             optimal_route = {
                 "prefix": config["path"]["srcIP"],
                 "nexthop_ip": optimal_path[0]["ToInterfaceIP"],
-                "nexthop_intf": get_nexthop_intf(optimal_path[0]["ToInterfaceIP"]),
+                "nexthop_intf": optimal_path[0]["FromInterfaceName"],
                 "label_stack": [int(e["RemotePrefixSID"]) for e in optimal_path[1:]],
             }
             logging.debug(
@@ -59,18 +59,6 @@ def main():
         logging.info("Setting exit flag - will clean up on SL-API heartbeat.")
         lets_get_thready.set()
         sl_api.watchdog_thread.join()
-
-
-def get_nexthop_intf(nexthop_ip):
-    # TODO: Hit device for this or put in Jalapeño
-    if nexthop_ip == "172.31.101.44":
-        return "HundredGigE0/0/0/0"
-    elif nexthop_ip == "172.31.101.48":
-        return "Bundle-Ether3"
-    elif nexthop_ip == "172.31.101.46":
-        return "HundredGigE0/0/0/2"
-    else:
-        raise Exception("Unknown nexthop!")
 
 
 def load_config(filename="config.json"):
