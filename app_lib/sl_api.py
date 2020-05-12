@@ -148,7 +148,11 @@ class SLAPIWrapper:
         route.RouteCommon.AdminDistance = admin_distance
         paths = []
         path = sl_route_common_pb2.SLRoutePath()
-        path.NexthopAddress.V4Address = int(ipaddress.ip_address(nexthop_ip))
+        nexthop_address = ipaddress.ip_address(nexthop_ip)
+        if isinstance(nexthop_address, ipaddress.IPv4Address):
+            path.NexthopAddress.V4Address = int(nexthop_address)
+        else:
+            path.NexthopAddress.V6Address = nexthop_address.packed()
         path.NexthopInterface.Name = nexthop_intf
         path.LoadMetric = load_metric
         path.LabelStack.extend(label_stack)
