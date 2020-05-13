@@ -152,7 +152,7 @@ class SLAPIWrapper:
         if isinstance(nexthop_address, ipaddress.IPv4Address):
             path.NexthopAddress.V4Address = int(nexthop_address)
         else:
-            path.NexthopAddress.V6Address = nexthop_address.packed()
+            path.NexthopAddress.V6Address = nexthop_address.packed
         path.NexthopInterface.Name = nexthop_intf
         path.LoadMetric = load_metric
         path.LabelStack.extend(label_stack)
