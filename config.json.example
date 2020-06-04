@@ -2,8 +2,8 @@
     "poll_time": 5,
     "path": {
         "srcIP": "172.31.101.67",
-        "srcGatewayIP": "172.31.101.1",
-        "dstGatewayIP": "172.31.101.6"
+        "srcGatewayIP": "0000.0000.0001",
+        "dstGatewayIP": "0000.0000.0006"
     },
     "jalapeno": {
         "netloc": "http://127.0.0.1:30852",
