@@ -12,7 +12,7 @@ class Jalapeno:
         to determine headend -> headend optimal path.
         """
         query = """
-        FOR v, e IN OUTBOUND SHORTEST_PATH 'LSNode/%s' TO 'LSNode/%s' LS_Topology
+        FOR v, e IN OUTBOUND SHORTEST_PATH 'LSNode/%s' TO 'LSNode/%s' LSv4_Topology
             OPTIONS {weightAttribute: 'Percent_Util_Outbound'}
             FILTER e != null
             RETURN e
